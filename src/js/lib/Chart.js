@@ -5,20 +5,23 @@ import unemployment from './data/data.json';
 class ModuleNicar2019Chart extends ChartComponent {
   defaultProps = {
     strokeColor: 'red',
-    stateData: unemployment.filter(a => a.State === 'Illinois')[0],
+    stateData: 'Illinois',
   }
 
   draw() {
     const props = this.props();
-    const { stateData } = props;
+    let stateData = unemployment.filter(a => a.State === 'National')[0];
+    if (props.stateData !== null) {
+      stateData = unemployment.filter(a => a.State === props.stateData)[0];
+    }
 
-    console.log(props);
     const node = this.selection().node();
     const { width } = node.getBoundingClientRect();
-    const height = 500;
+    const height = 400;
 
+    const str = props.stateData === null ? 'the United States' : stateData.State;
     this.selection().appendSelect('h2', 'state-name')
-      .html('Unemployment in ' + stateData.State);
+      .html('Unemployment in ' + str);
 
     const lineData = [];
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -28,7 +31,7 @@ class ModuleNicar2019Chart extends ChartComponent {
       years.map(year => {
         lineData.push({
           'date': new Date(`${month} 1, 20${year}`),
-          'value': stateData[`${month}-${year}`],
+          'value': stateData[`${year}-${month}`],
         });
       });
     });
@@ -53,6 +56,12 @@ class ModuleNicar2019Chart extends ChartComponent {
       .attr('width', width)
       .attr('height', height);
 
+    // Color scale
+    const color = d3.scaleThreshold()
+      .domain([1, 2, 3, 4, 5, 6, 7])
+      .range(['#FFE5D8', '#FFC1AA', '#F59E82', '#E37E61', '#CC5F44', '#B2422C', '#972516', '#7A0001']);
+
+    console.log(lineData);
     g.appendSelect('g', 'x-axis')
       .attr('transform', 'translate(0,' + (height - 50) + ')')
       .call(d3.axisBottom(xScale)
@@ -72,7 +81,7 @@ class ModuleNicar2019Chart extends ChartComponent {
     g.appendSelect('path', 'data-line')
       .datum(lineData)
       .attr('d', line)
-      .style('stroke', props.strokeColor);
+      .style('stroke', color(lineData[lineData.length - 1].value));
 
     return this;
   }

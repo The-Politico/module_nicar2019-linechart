@@ -10,7 +10,6 @@ const { brand } = Colors;
 class ChartContainer extends React.Component {
   chartContainer = React.createRef()
   chart = new Chart()
-  state = { 'name': 'IL', 'unemployment': 0.15 }
   componentDidMount() {
     this.chart
       .selection(this.chartContainer.current)
