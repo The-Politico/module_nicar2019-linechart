@@ -1,0 +1,20 @@
+#ModuleNicar2019Chart-container {
+  /*Your chart styles here*/
+}
+#ModuleNicar2019Chart-container h2 {
+  text-align: center;
+}
+#ModuleNicar2019Chart-container .data-line {
+  fill: none;
+  stroke-width: 3px;
+}
+#ModuleNicar2019Chart-container .x-axis path, #ModuleNicar2019Chart-container .y-axis path {
+  stroke: none;
+}
+#ModuleNicar2019Chart-container .x-axis .tick text, #ModuleNicar2019Chart-container .y-axis .tick text {
+  font-family: "din-2014";
+}
+#ModuleNicar2019Chart-container .x-axis .tick line, #ModuleNicar2019Chart-container .y-axis .tick line {
+  stroke: #E5E7EB;
+  stroke-dasharray: 2 2;
+}
