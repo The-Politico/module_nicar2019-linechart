@@ -6880,8 +6880,7 @@ function (_ChartComponent) {
     _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(ModuleNicar2019Chart)).call.apply(_getPrototypeOf2, [this].concat(args)));
 
     _defineProperty(_assertThisInitialized(_this), "defaultProps", {
-      strokeColor: 'red',
-      stateData: 'Illinois'
+      filterState: 'Illinois'
     });
 
     return _this;
@@ -6895,9 +6894,9 @@ function (_ChartComponent) {
         return a.State === 'National';
       })[0];
 
-      if (props.stateData !== null) {
+      if (props.filterState !== null) {
         stateData = unemployment.filter(function (a) {
-          return a.State === props.stateData;
+          return a.State === props.filterState;
         })[0];
       }
 
@@ -6907,7 +6906,7 @@ function (_ChartComponent) {
           width = _node$getBoundingClie.width;
 
       var height = 400;
-      var str = props.stateData === null ? 'the United States' : stateData.State;
+      var str = props.filterState === null ? 'the United States' : stateData.State;
       this.selection().appendSelect('h2', 'state-name').html('Unemployment in ' + str);
       var lineData = [];
       var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -6938,7 +6937,6 @@ function (_ChartComponent) {
       .attr('width', width).attr('height', height); // Color scale
 
       var color = d3.scaleThreshold().domain([1, 2, 3, 4, 5, 6, 7]).range(['#FFE5D8', '#FFC1AA', '#F59E82', '#E37E61', '#CC5F44', '#B2422C', '#972516', '#7A0001']);
-      console.log(lineData);
       g.appendSelect('g', 'x-axis').attr('transform', 'translate(0,' + (height - 50) + ')').call(d3.axisBottom(xScale).tickFormat(function (a) {
         return d3.timeFormat('%b %y')(a);
       }).tickSizeInner(-height + 100));
